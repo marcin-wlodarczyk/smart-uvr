@@ -10,17 +10,38 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { HomeComponent } from './home/home.component';
+import {HttpClientModule} from "@angular/common/http";
+import {MatAutocompleteModule} from "@angular/material/autocomplete";
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {MatInputModule} from "@angular/material/input";
+import {MatIconModule} from "@angular/material/icon";
+import {MatButtonModule} from "@angular/material/button";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {MatCardModule} from "@angular/material/card";
+import {MatTableModule} from "@angular/material/table";
+import {NgxMatTimepickerModule} from "ngx-mat-timepicker";
 
 @NgModule({
   declarations: [AppComponent, NxWelcomeComponent, HomeComponent],
-  imports: [
-    BrowserModule,
-    FlexLayoutModule,
-    MatSlideToggleModule,
-    RouterModule.forRoot(appRoutes, { initialNavigation: 'enabledBlocking' }),
-    BrowserAnimationsModule,
-    MatToolbarModule,
-  ],
+    imports: [
+        BrowserModule,
+        FlexLayoutModule,
+        MatSlideToggleModule,
+        HttpClientModule,
+        MatAutocompleteModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatIconModule,
+        MatButtonModule,
+        MatTableModule,
+        RouterModule.forRoot(appRoutes, {initialNavigation: 'enabledBlocking'}),
+        BrowserAnimationsModule,
+        MatToolbarModule,
+        ReactiveFormsModule,
+        MatCardModule,
+        NgxMatTimepickerModule,
+        FormsModule,
+    ],
   providers: [],
   bootstrap: [AppComponent],
 })

@@ -1,0 +1,45 @@
+.search-banner {
+    background: url("/assets/images/bus-stop-03.jpg");
+    background-repeat: no-repeat;
+    background-size: auto 100%;
+    min-height: 43vh;
+
+    .search-area {
+        margin-top: 3%;
+        margin-left: 3%;
+
+        h1 {
+            color: #211563;
+            font-size: 1.5rem;
+        }
+
+        .stop-selection-form-field {
+            min-width: 250px;
+        }
+    }
+}
+
+.homepage-content {
+    box-shadow: 0 -5px 5px rgb(0 0 0 / 30%);
+    padding: 6%;
+
+    .schedules-list {
+        .schedules {
+            .directions {
+                min-width: 65vw;
+            }
+
+            .mat-mdc-header-cell {
+                text-align: center;
+            }
+
+            .mat-mdc-cell {
+                text-align: center;
+            }
+        }
+    }
+}
+
+::ng-deep .mdc-text-field--filled:not(.mdc-text-field--disabled) {
+    background-color: rgba(255, 255, 255, .9);
+}

@@ -2,10 +2,16 @@ import express from 'express';
 import morgan from 'morgan';
 import bodyparser from 'body-parser';
 import {v1Routes} from './v1';
+import cors from 'cors';
 import * as path from 'path';
+
+const origin = {
+    origin: '*', // TODO: Limit origin
+};
 
 const app = express();
 app.use(bodyparser.json());
+app.use(cors(origin));
 app.use(morgan('dev'));
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, '../../views'));

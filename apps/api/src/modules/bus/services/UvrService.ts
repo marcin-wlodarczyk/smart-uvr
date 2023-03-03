@@ -1,12 +1,7 @@
 import {UvrClient} from "./UvrClient";
-import {Uvr, Stop} from "@smart-uvr/interfaces";
+import {Uvr, Stop, Journey, Time} from "@smart-uvr/interfaces";
 
-export interface DesiredJourney {
-    departure: string;
-    arrival: string;
-}
-
-function secondsToHms(d: number) {
+function secondsToTime(d: number): Time {
     d = Number(d);
     const h = Math.floor(d / 3600);
     const m = Math.floor(d % 3600 / 60);
@@ -14,7 +9,11 @@ function secondsToHms(d: number) {
     const hDisplay = h > 0 ? h.toString().padStart(2, '0') : "00";
     const mDisplay = m > 0 ? m.toString().padStart(2, '0') : "00";
 
-    return hDisplay + ':' + mDisplay;
+    return {
+      time: hDisplay + ':' + mDisplay,
+      hours: h,
+      minutes: m,
+    };
 }
 
 export class UvrService {
@@ -35,9 +34,9 @@ export class UvrService {
         });
     }
 
-    public async getJourneys(originStopId: string, destinationStopId: string): Promise<DesiredJourney[]> {
+    public async getJourneys(originStopId: string, destinationStopId: string): Promise<Journey[]> {
         const routes = await this.client.getRoutesByStopId(originStopId);
-        const desiredJourneys: DesiredJourney[] = [];
+        const desiredJourneys: Journey[] = [];
         for (const route of routes) {
             const journeys = await this.client.getJourneysByRouteId(route.id);
             for (const journey of journeys) {
@@ -63,9 +62,9 @@ export class UvrService {
                 if (originStopCirculationIndex != undefined && destinationStopCirculationIndex != undefined && originStopCirculationIndex < destinationStopCirculationIndex) {
                     const originCirculation = journeyDetails.circulations[originStopCirculationIndex];
                     const destinationCirculation = journeyDetails.circulations[destinationStopCirculationIndex];
-                    const desiredJourney: DesiredJourney = {
-                        departure: secondsToHms(originCirculation.departureTime),
-                        arrival: secondsToHms(destinationCirculation.arrivalTime),
+                    const desiredJourney: Journey = {
+                        departure: secondsToTime(originCirculation.departureTime),
+                        arrival: secondsToTime(destinationCirculation.arrivalTime),
                     }
                     desiredJourneys.push(desiredJourney);
                 }

@@ -1,1 +1,92 @@
-<p>Home works!</p>
+<div class="search-banner" fxLayout="row" fxLayoutAlign="start start">
+    <div class="search-area" fxLayout="column wrap" fxLayoutAlign="start">
+        <h1>Procura de uma conexão!</h1>
+        <form fxLayout="column" fxLayoutAlign="center start" [formGroup]="group">
+            <mat-form-field class="stop-selection-form-field" appearance="fill">
+                <mat-label>Origem</mat-label>
+                <input type="text"
+                       placeholder="Origin"
+                       matInput
+                       formControlName="originStop"
+                       [matAutocomplete]="autoOrigin">
+                <mat-autocomplete autoActiveFirstOption #autoOrigin="matAutocomplete" [displayWith]="displayStop">
+                    <mat-option *ngFor="let originStop of filteredOriginStops | async" [value]="originStop">
+                        {{originStop.name}}
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
+            <mat-form-field class="stop-selection-form-field" appearance="fill">
+                <mat-label>Destino</mat-label>
+                <input type="text"
+                       placeholder="Destination"
+                       matInput
+                       formControlName="destinationStop"
+                       [matAutocomplete]="autoDestination">
+                <mat-autocomplete autoActiveFirstOption #autoDestination="matAutocomplete" [displayWith]="displayStop">
+                    <mat-option *ngFor="let destinationStop of filteredDestinationStops | async"
+                                [value]="destinationStop">
+                        {{destinationStop.name}}
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
+
+            <div fxLayout="row" fxLayoutGap="5%" fxLayoutAlign="start center">
+                <button mat-flat-button color="primary" (click)="getSchedules()" [disabled]="group.invalid">Encontrar
+                </button>
+                <button mat-flat-button color="primary" (click)="swapStops()" [disabled]="group.invalid">
+                    <mat-icon>swap_horiz</mat-icon>
+                    Swap
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="homepage-content">
+    <div class="schedules-list" fxLayout="column" fxLayoutAlign="center center">
+        <h2>Horarios</h2>
+        <mat-form-field>
+            <input matInput
+                   name="selected_time_B"
+                   [format]="24"
+                   [ngxMatTimepicker]="pickerB"
+                    [(ngModel)]="selectedTime"
+                   placeholder="16:00"
+                   readonly/>
+            <mat-icon matSuffix
+                      (click)="pickerB.open()">
+                watch_later
+            </mat-icon>
+        </mat-form-field>
+        <ngx-mat-timepicker color="primary"
+                            (closed)="onTimeChanged()"
+                            #pickerB></ngx-mat-timepicker>
+        <div class="schedules" fxLayout="column" fxLayoutGap="5%">
+            <div *ngFor="let schedule of schedules">
+                <div class="directions" fxLayout="column" fxLayoutAlign="center start">
+                    <div class="origin" fxLayout="row">
+                        <!--                        <mat-icon>start</mat-icon>-->
+                        <span>{{schedule.origin.name}}</span>
+                    </div>
+                    <div class="destination" fxLayout="row">
+                        <!--                        <mat-icon>line_end</mat-icon>-->
+                        <span>{{schedule.destination.name}}</span>
+                    </div>
+                </div>
+                <table mat-table [dataSource]="schedule.journeys" class="mat-elevation-z8">
+                    <ng-container matColumnDef="departure">
+                        <th mat-header-cell *matHeaderCellDef>Partida</th>
+                        <td mat-cell *matCellDef="let journey"> {{journey.departure.time}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="arrival">
+                        <th mat-header-cell *matHeaderCellDef>Chegada</th>
+                        <td mat-cell *matCellDef="let journey"> {{journey.arrival.time}} </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

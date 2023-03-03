@@ -15,8 +15,9 @@ export interface Journey {
 }
 
 export interface JourneyPlan {
-    origin: Stop;
-    destination: Stop;
+    originStopId: string;
+    destinationStopId: string;
+    arrivalTime?: string;
 }
 
 export interface GetSchedulesDto {
@@ -26,6 +27,15 @@ export interface GetSchedulesDto {
 export interface Schedule {
     origin: Stop;
     destination: Stop;
-    journeys: any[];
-    // journeys: Journey[]; // TODO: Uncoment this
+    journeys: Journey[];
 }
+
+export enum StopId {
+    BorbelaLargo = '1347',
+    UtadReitoria = '1018',
+    UtadPedagogico = '1019',
+    Montezelos01 = '1186',
+    Montezelos02 = '1201',
+    TorresDasFlores = '1151',
+}
+
